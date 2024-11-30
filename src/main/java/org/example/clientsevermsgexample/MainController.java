@@ -197,6 +197,7 @@ public class MainController implements Initializable {
         new Thread(() -> connectToServer(chatArea)).start();
     }
 
+
     private void connectToServer(TextArea chatArea) {
         try {
             clientSocket = new Socket("localhost", 6666);
