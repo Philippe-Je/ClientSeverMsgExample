@@ -135,6 +135,7 @@ public class MainController implements Initializable {
 
     String message;
 
+
     private void runServer(TextArea chatArea) {
         try {
             serverSocket = new ServerSocket(6666);
@@ -196,7 +197,6 @@ public class MainController implements Initializable {
 
         new Thread(() -> connectToServer(chatArea)).start();
     }
-
 
     private void connectToServer(TextArea chatArea) {
         try {
