@@ -148,14 +148,21 @@ public class MainController implements Initializable {
     }
 
     private void setupCommunication() throws IOException {
+
         out = new PrintWriter(clientSocket.getOutputStream(), true);
         in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
 
-        String inputLine;
-        while ((inputLine = in.readLine()) != null) {
-            String finalInputLine = inputLine;
-            Platform.runLater(() -> appendToChatArea((isServer ? "Client: " : "Server: ") + finalInputLine));
-        }
+        new Thread(() -> {
+            String inputLine;
+            try {
+                while ((inputLine = in.readLine()) != null) {
+                    String finalInputLine = inputLine;
+                    Platform.runLater(() -> appendToChatArea((isServer ? "Client: " : "Server: ") + finalInputLine));
+                }
+            } catch (IOException e) {
+                Platform.runLater(() -> updateStatus("Error reading: " + e.getMessage()));
+            }
+        }).start();
     }
 
     private void sendMessage(String message, TextArea chatArea) {
